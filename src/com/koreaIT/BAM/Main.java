@@ -46,6 +46,12 @@ public class Main {
 					Article article = articles.get(i);
 					System.out.printf("%d	|	%s\n", article.id, article.title);
 				}
+				
+			} else if (cmd.startsWith("article detail ")) {
+				
+				String[] cmdBits = cmd.split(" ");
+				int id = Integer.parseInt(cmdBits[2]);
+				
 			}
 			
 		}
