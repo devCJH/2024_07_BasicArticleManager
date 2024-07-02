@@ -12,33 +12,42 @@ public class Main {
 		
 		List<Article> articles = new ArrayList<>();
 		
-		int id = 0;
+		int lastArticleId = 0;
 		
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
+
+			if (cmd.equals("exit")) {
+				break;
+			}
 			
 			if (cmd.equals("article write")) {
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String content = sc.nextLine();
-				id++;
+				lastArticleId++;
 				
-				Article article = new Article(id, title, content);
+				Article article = new Article(lastArticleId, title, content);
 				
 				articles.add(article);
 				
-				System.out.printf("%d번 게시물이 생성되었습니다\n", id);
+				System.out.printf("%d번 게시물이 생성되었습니다\n", lastArticleId);
+				
+			} else if (cmd.equals("article list")) {
+				if (articles.size() == 0) {
+					System.out.println("게시물이 존재하지 않습니다");
+					continue;
+				}
+				
+				System.out.println("번호	|	제목");
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					System.out.printf("%d	|	%s\n", article.id, article.title);
+				}
 			}
 			
-			if (cmd.equals("article list")) {
-				System.out.println("게시물이 존재하지 않습니다");
-			}
-			
-			if (cmd.equals("exit")) {
-				break;
-			}
 		}
 		sc.close();
 		System.out.println("== 프로그램 끝 ==");
