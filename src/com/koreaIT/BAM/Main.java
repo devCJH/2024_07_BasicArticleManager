@@ -58,7 +58,7 @@ public class Main {
 					if (article.id == id) {
 						foundArticle = article;
 						break;
-					} 
+					}
 				}
 				
 				if (foundArticle == null) {
@@ -69,6 +69,30 @@ public class Main {
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.content);
+				
+			} else if (cmd.startsWith("article delete ")) {
+				
+				String[] cmdBits = cmd.split(" ");
+				int id = Integer.parseInt(cmdBits[2]);
+
+				int foundIndex = -1;
+				
+				int i = 0;
+				for (Article article : articles) {
+					if (article.id == id) {
+						foundIndex = i;
+						break;
+					}
+					i++;
+				}
+				
+				if (foundIndex == -1) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+					continue;
+				}
+				
+				articles.remove(foundIndex);
+				System.out.printf("%d번 게시물을 삭제했습니다\n", id);
 			}
 			
 		}
