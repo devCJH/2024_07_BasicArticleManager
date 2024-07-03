@@ -13,7 +13,6 @@ public class Main {
 		List<Article> articles = new ArrayList<>();
 		
 		int lastArticleId = 0;
-		
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
@@ -50,7 +49,14 @@ public class Main {
 			} else if (cmd.startsWith("article detail ")) {
 				
 				String[] cmdBits = cmd.split(" ");
-				int id = Integer.parseInt(cmdBits[2]);
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("잘못된 명령어입니다");
+					continue;
+				}
 
 				Article foundArticle = null;
 				
@@ -73,7 +79,14 @@ public class Main {
 			} else if (cmd.startsWith("article delete ")) {
 				
 				String[] cmdBits = cmd.split(" ");
-				int id = Integer.parseInt(cmdBits[2]);
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("잘못된 명령어입니다");
+					continue;
+				}
 
 				int foundIndex = -1;
 				
@@ -94,7 +107,6 @@ public class Main {
 				articles.remove(foundIndex);
 				System.out.printf("%d번 게시물을 삭제했습니다\n", id);
 			}
-			
 		}
 		sc.close();
 		System.out.println("== 프로그램 끝 ==");
