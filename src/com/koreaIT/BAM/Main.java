@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.koreaIT.BAM.dto.Article;
+import com.koreaIT.BAM.util.Util;
+
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
@@ -28,7 +31,7 @@ public class Main {
 				String content = sc.nextLine();
 				lastArticleId++;
 				
-				Article article = new Article(lastArticleId, title, content);
+				Article article = new Article(lastArticleId, Util.getDateStr(), Util.getDateStr(), title, content);
 				
 				articles.add(article);
 				
@@ -40,10 +43,10 @@ public class Main {
 					continue;
 				}
 				
-				System.out.println("번호	|	제목");
+				System.out.println("번호	|	제목	|	작성일");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d	|	%s\n", article.id, article.title);
+					System.out.printf("%d	|	%s	|	%s	\n", article.id, article.title, article.regDate);
 				}
 				
 			} else if (cmd.startsWith("article detail ")) {
@@ -73,6 +76,8 @@ public class Main {
 				}
 				
 				System.out.printf("번호 : %d\n", foundArticle.id);
+				System.out.printf("작성일 : %s\n", foundArticle.regDate);
+				System.out.printf("수정일 : %s\n", foundArticle.updateDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.content);
 				
@@ -110,17 +115,5 @@ public class Main {
 		}
 		sc.close();
 		System.out.println("== 프로그램 끝 ==");
-	}
-}
-
-class Article {
-	int id;
-	String title;
-	String content;
-	
-	Article(int id, String title, String content) {
-		this.id = id;
-		this.title = title;
-		this.content = content;
 	}
 }
