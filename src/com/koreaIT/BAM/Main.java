@@ -8,14 +8,22 @@ import com.koreaIT.BAM.dto.Article;
 import com.koreaIT.BAM.util.Util;
 
 public class Main {
+	
+	private static List<Article> articles;
+	private static int lastArticleId;
+
+	static {
+		articles = new ArrayList<>();
+		lastArticleId = 0;
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 		
 		Scanner sc = new Scanner(System.in);
 		
-		List<Article> articles = new ArrayList<>();
+		makeTestData();
 		
-		int lastArticleId = 0;
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
@@ -38,6 +46,18 @@ public class Main {
 				System.out.printf("%d번 게시물이 생성되었습니다\n", lastArticleId);
 				
 			} else if (cmd.equals("article list")) {
+				if (articles.size() == 0) {
+					System.out.println("게시물이 존재하지 않습니다");
+					continue;
+				}
+				
+				System.out.println("번호	|	제목	|	작성일");
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					System.out.printf("%d	|	%s	|	%s	\n", article.getId(), article.getTitle(), article.getRegDate());
+				}
+				
+			} else if (cmd.startsWith("article list ")) {
 				if (articles.size() == 0) {
 					System.out.println("게시물이 존재하지 않습니다");
 					continue;
@@ -152,5 +172,13 @@ public class Main {
 		}
 		sc.close();
 		System.out.println("== 프로그램 끝 ==");
+	}
+	
+	private static void makeTestData() {
+		System.out.println("테스트용 게시물 데이터 3개를 생성했습니다");
+		
+		for (int i = 1; i <= 3; i++) {
+			articles.add(new Article(++lastArticleId, Util.getDateStr(), Util.getDateStr(), "제목" + i, "내용" + i));
+		}
 	}
 }
