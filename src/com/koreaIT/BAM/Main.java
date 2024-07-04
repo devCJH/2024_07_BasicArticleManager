@@ -46,7 +46,7 @@ public class Main {
 				System.out.println("번호	|	제목	|	작성일");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d	|	%s	|	%s	\n", article.id, article.title, article.regDate);
+					System.out.printf("%d	|	%s	|	%s	\n", article.getId(), article.getTitle(), article.getRegDate());
 				}
 				
 			} else if (cmd.startsWith("article detail ")) {
@@ -64,7 +64,7 @@ public class Main {
 				Article foundArticle = null;
 				
 				for (Article article : articles) {
-					if (article.id == id) {
+					if (article.getId() == id) {
 						foundArticle = article;
 						break;
 					}
@@ -75,11 +75,11 @@ public class Main {
 					continue;
 				}
 				
-				System.out.printf("번호 : %d\n", foundArticle.id);
-				System.out.printf("작성일 : %s\n", foundArticle.regDate);
-				System.out.printf("수정일 : %s\n", foundArticle.updateDate);
-				System.out.printf("제목 : %s\n", foundArticle.title);
-				System.out.printf("내용 : %s\n", foundArticle.content);
+				System.out.printf("번호 : %d\n", foundArticle.getId());
+				System.out.printf("작성일 : %s\n", foundArticle.getRegDate());
+				System.out.printf("수정일 : %s\n", foundArticle.getUpdateDate());
+				System.out.printf("제목 : %s\n", foundArticle.getTitle());
+				System.out.printf("내용 : %s\n", foundArticle.getContent());
 				
 			} else if (cmd.startsWith("article delete ")) {
 				
@@ -97,7 +97,7 @@ public class Main {
 				
 				int i = 0;
 				for (Article article : articles) {
-					if (article.id == id) {
+					if (article.getId() == id) {
 						foundIndex = i;
 						break;
 					}
