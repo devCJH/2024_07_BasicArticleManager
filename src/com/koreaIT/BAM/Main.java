@@ -57,18 +57,6 @@ public class Main {
 					System.out.printf("%d	|	%s	|	%s	\n", article.getId(), article.getTitle(), article.getRegDate());
 				}
 				
-			} else if (cmd.startsWith("article list ")) {
-				if (articles.size() == 0) {
-					System.out.println("게시물이 존재하지 않습니다");
-					continue;
-				}
-				
-				System.out.println("번호	|	제목	|	작성일");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
-					System.out.printf("%d	|	%s	|	%s	\n", article.getId(), article.getTitle(), article.getRegDate());
-				}
-				
 			} else if (cmd.startsWith("article detail ")) {
 				
 				String[] cmdBits = cmd.split(" ");
