@@ -5,16 +5,21 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.BAM.dto.Article;
+import com.koreaIT.BAM.dto.Member;
 import com.koreaIT.BAM.util.Util;
 
 public class Main {
 	
 	private static List<Article> articles;
 	private static int lastArticleId;
+	private static List<Member> members;
+	private static int lastMemberId;
 
 	static {
 		articles = new ArrayList<>();
 		lastArticleId = 0;
+		members = new ArrayList<>();
+		lastMemberId = 0;
 	}
 	
 	public static void main(String[] args) {
@@ -32,7 +37,35 @@ public class Main {
 				break;
 			}
 			
-			if (cmd.equals("article write")) {
+			if (cmd.equals("member join")) {
+				
+				System.out.printf("아이디 : ");
+				String loginId = sc.nextLine();
+				
+				String loginPw = null;
+				while (true) {
+					System.out.printf("비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.printf("비밀번호 확인 : ");
+					String loginPwChk = sc.nextLine();
+					
+					if (loginPw.equals(loginPwChk) == false) {
+						System.out.println("비밀번호가 일치하지 않습니다");
+						continue;
+					}
+					
+					
+					break;
+				}
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+				
+				Member member = new Member(++lastMemberId, Util.getDateStr(), Util.getDateStr(), loginId, loginPw, name);
+				members.add(member);
+				
+				System.out.printf("%s님의 가입을 환영합니다~\n", loginId);
+				
+			} else if (cmd.equals("article write")) {
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
