@@ -13,12 +13,14 @@ public class App {
 	private int lastArticleId;
 	private List<Member> members;
 	private int lastMemberId;
+	private Member loginedMember;
 
 	public App() {
-		articles = new ArrayList<>();
-		lastArticleId = 0;
-		members = new ArrayList<>();
-		lastMemberId = 0;
+		this.articles = new ArrayList<>();
+		this.lastArticleId = 0;
+		this.members = new ArrayList<>();
+		this.lastMemberId = 0;
+		this.loginedMember = null;
 	}
 	
 	public void run() {
@@ -38,6 +40,11 @@ public class App {
 			
 			if (cmd.equals("member join")) {
 				
+				if (isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+				
 				String loginId = null;
 				String loginPw = null;
 				String name = null;
@@ -51,16 +58,9 @@ public class App {
 						continue;
 					}
 					
-					boolean isLoginIdDup = false;
+					Member member = getMemberByLoginId(loginId);
 					
-					for (Member member : members) {
-						if (member.getLoginId().equals(loginId)) {
-							isLoginIdDup = true;
-							break;
-						}
-					}
-					
-					if (isLoginIdDup == true) {
+					if (member != null) {
 						System.out.printf("[ %s ]은(는) 이미 사용중인 아이디입니다\n", loginId);
 						continue;
 					}
@@ -106,14 +106,58 @@ public class App {
 				
 				System.out.printf("%s님의 가입을 환영합니다~\n", loginId);
 				
+			} else if (cmd.equals("member login")) {
+				
+				if (isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+				
+				System.out.printf("아이디 : ");
+				String loginId = sc.nextLine().trim();
+				System.out.printf("비밀번호 : ");
+				String loginPw = sc.nextLine().trim();
+				
+				Member member = getMemberByLoginId(loginId);
+				
+				if (member == null) {
+					System.out.printf("[ %s ]은(는) 존재하지 않는 아이디입니다\n", loginId);
+					continue;
+				}
+				
+				if (member.getLoginPw().equals(loginPw) == false) {
+					System.out.println("비밀번호를 확인해주세요");
+					continue;
+				}
+				
+				this.loginedMember = member;
+				System.out.printf("[ %s ]님 환영합니다~\n", member.getName());
+				
+			} else if (cmd.equals("member logout")) {
+				
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
+				this.loginedMember = null;
+				
+				System.out.println("정상적으로 로그아웃 되었습니다");
+				
 			} else if (cmd.equals("article write")) {
+				
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String content = sc.nextLine();
 				lastArticleId++;
 				
-				Article article = new Article(lastArticleId, Util.getDateStr(), Util.getDateStr(), title, content);
+				Article article = new Article(lastArticleId, Util.getDateStr(), Util.getDateStr(), this.loginedMember.getId(), title, content);
 				
 				articles.add(article);
 				
@@ -226,6 +270,19 @@ public class App {
 		System.out.println("== 프로그램 끝 ==");
 	}
 	
+	private boolean isLogined() {
+		return this.loginedMember != null;
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		for (Member member : members) {
+			if (member.getLoginId().equals(loginId)) {
+				return member;
+			}
+		}
+		return null;
+	}
+
 	private int getCmdNum(String cmd) {
 		String[] cmdBits = cmd.split(" ");
 		
@@ -252,7 +309,7 @@ public class App {
 		System.out.println("테스트용 게시물 데이터 3개를 생성했습니다");
 		
 		for (int i = 1; i <= 3; i++) {
-			articles.add(new Article(++lastArticleId, Util.getDateStr(), Util.getDateStr(), "제목" + i, "내용" + i));
+			articles.add(new Article(++lastArticleId, Util.getDateStr(), Util.getDateStr(), 2, "제목" + i, "내용" + i));
 		}
 	}
 }

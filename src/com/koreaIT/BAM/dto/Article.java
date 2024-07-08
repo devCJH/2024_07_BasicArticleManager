@@ -4,13 +4,15 @@ public class Article {
 	private int id;
 	private String regDate;
 	private String updateDate;
+	private int memberId;
 	private String title;
 	private String content;
 	
-	public Article(int id, String regDate, String updateDate, String title, String content) {
+	public Article(int id, String regDate, String updateDate, int memberId, String title, String content) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
+		this.memberId = memberId;
 		this.title = title;
 		this.content = content;
 	}
@@ -53,5 +55,13 @@ public class Article {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public int getMemberId() {
+		return memberId;
+	}
+	
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 }
